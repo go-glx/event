@@ -2,36 +2,39 @@ package event
 
 import "reflect"
 
-type Dispatcher struct {
-	topics map[string]any
-}
+type (
+	abstractTopic interface {
+		handle()
+	}
+	topicTypeID = string
 
-type drainable interface {
-	drain()
-}
+	Dispatcher struct {
+		topics map[topicTypeID]abstractTopic
+	}
+)
 
 func NewDispatcher() *Dispatcher {
 	return &Dispatcher{
-		topics: make(map[string]any),
+		topics: make(map[string]abstractTopic),
 	}
 }
 
-func TopicFor[T any](d *Dispatcher) *Topic[T] {
+func TopicOf[T any](d *Dispatcher) *Topic[T] {
 	var TType T
-	topicID := resolveTypeID(TType)
+	topicType := reflect.TypeOf(TType).String()
 
-	if topic, exist := d.topics[topicID]; exist {
-		return reflect.ValueOf(topic).Interface().(*Topic[T])
+	if topic, exist := d.topics[topicType]; exist {
+		return topic.(*Topic[T])
 	}
 
-	topic := NewTopic[T]()
-	d.topics[topicID] = topic
+	topic := newTopic[T]()
+	d.topics[topicType] = topic
 
 	return topic
 }
 
 func (d *Dispatcher) HandleEvents() {
 	for _, topic := range d.topics {
-		topic.(drainable).drain()
+		topic.handle()
 	}
 }
