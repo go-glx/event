@@ -1,4 +1,4 @@
-module github.com/fe3dback/glx-event
+module github.com/go-glx/event
 
 go 1.18
 

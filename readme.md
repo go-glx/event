@@ -1,9 +1,6 @@
-# go-glx/event
+# go-glx / event
 
 Tiny library for event handling, designed for game engines
-
-version: 0.2
-__NOT READY FOR REAL USE__
 
 ## Usage
 
