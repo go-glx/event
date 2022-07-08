@@ -1,7 +1,7 @@
 package event
 
 import (
-	"github.com/fe3dback/glx-event/event/internal/datas"
+	"github.com/go-glx/event/event/internal/datas"
 )
 
 const warmQueueCount = 128
