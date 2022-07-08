@@ -1,4 +1,4 @@
-# glx-event
+# go-glx/event
 
 Tiny library for event handling, designed for game engines
 
